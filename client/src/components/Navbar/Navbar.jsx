@@ -10,7 +10,7 @@ const Navbar = () => {
   const User = null
 
   return (
-    <nav>
+    <nav className='main-nav'>
       <div className='navbar'>
         <Link to='/' className='nav-item nav-logo'>
           <img src={logo} alt='logo' />
@@ -34,10 +34,22 @@ const Navbar = () => {
           </Link>
         ) : (
           <>
-            <Link to='/'>
-              <Avatar></Avatar>
-            </Link>
-            <Button>Logout</Button>
+            <Avatar
+              backgroundColor='#009dff'
+              px='10px'
+              py='7px'
+              borderRadius='50%'
+              color='white'
+            >
+              <Link
+                to='/User'
+                style={{ color: 'white', textDecoration: 'none' }}
+              >
+                R
+              </Link>
+            </Avatar>
+
+            <button className='nav-item nav-links'>Log out</button>
           </>
         )}
       </div>
