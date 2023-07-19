@@ -22,7 +22,7 @@ const QuestionsDetails = () => {
       askedOn: 'jan 1',
       answer: [
         {
-          answerBody: 'Answer',
+          answerBody: 'Answer 1',
           userAnswered: 'Kumar',
           answeredOn: 'Jan 2',
           userId: 2,
@@ -91,12 +91,12 @@ const QuestionsDetails = () => {
               </div>
               <div style={{ width: '100%' }}>
                 <p className='question-body'>{question.questionBody}</p>
-                <div className='question-details'>
+                <div className='question-details-tags'>
                   {question.questionTags.map((tag) => (
                     <p key={tag}>{tag}</p>
                   ))}
                 </div>
-                <div className='question-action-user'>
+                <div className='question-actions-user'>
                   <div>
                     <button type='button'>Share</button>
                     <button type='button'>Delete</button>
@@ -143,10 +143,10 @@ const QuestionsDetails = () => {
           />
         </form>
         <p>
-          Browse other questions tagged
+          Browse other questions tagged{' '}
           {question.questionTags.map((tag) => (
             <Link to='/Tags' key={tag}>
-              {tag}
+              {tag + ' '}
             </Link>
           ))}{' '}
           or{' '}
