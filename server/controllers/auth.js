@@ -8,9 +8,11 @@ export const signup = async (req, res) => {
 
   try {
     const existingUser = await users.findOne({ email })
+    console.log('any existing user', existingUser)
     if (existingUser) {
       return res.status(404).json({ message: 'User already exist' })
     }
+    console.log('continues...')
     const hashedPassword = await bcrypt.hash(password, 12)
     const newUser = await users.create({
       name,
@@ -24,6 +26,7 @@ export const signup = async (req, res) => {
     )
     res.status(200).json({ result: newUser, token })
   } catch (error) {
+    console.log(error)
     res.status(500).json('Something went wrong')
   }
 }
