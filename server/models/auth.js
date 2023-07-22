@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema({
   about: { type: String },
   tags: { type: [String] },
   email: { type: String },
-  joinedOn: { type: Date, default: Date.now() },
+  joinedOn: { type: Date, default: Date.now },
 })
 
 export default mongoose.model('User', userSchema)

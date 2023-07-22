@@ -1,78 +1,48 @@
-import React from 'react'
-import { useParams, Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import Avatar from '../../components/Avatar/Avatar'
 import DisplayAnswer from './DisplayAnswer'
 import upVote from '../../assets/sort-up.svg'
 import downVote from '../../assets/sort-down.svg'
 import './Questions.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { postAnswer } from '../../actions/question.js'
 
 const QuestionsDetails = () => {
+  const dispatch = useDispatch()
+  const questionsListObject = useSelector((state) => state.questionsReducer)
+  const User = useSelector((state) => state.currentUserReducer)
   const { id } = useParams()
-  var questionsList = [
-    {
-      _id: '1',
-      upVotes: 3,
-      downVotes: 2,
-      noOfAnswers: 2,
-      questionTitle: '1. What is a function?',
-      questionBody: 'It meant to be',
-      questionTags: ['java', 'node js', 'react js', 'mongoose'],
-      userPosted: 'mano',
-      userId: 2,
-      askedOn: 'jan 1',
-      answer: [
-        {
-          answerBody: 'Answer 1',
-          userAnswered: 'Kumar',
-          answeredOn: 'Jan 2',
-          userId: 2,
-        },
-      ],
-    },
-    {
-      _id: '2',
-      upVotes: 3,
-      downVotes: 2,
-      no0fAnswers: 0,
-      questionTitle: '2. What is a function?',
-      questionBody: 'It meant to be',
-      questionTags: ['javascript', 'R', 'python'],
-      userPosted: 'mano',
-      userId: 2,
-      askedOn: 'jan 1',
-      answer: [
-        {
-          answerBody: 'Answer 2',
-          userAnswered: 'Kumar',
-          answeredOn: 'Jan 12',
-          userId: 1,
-        },
-      ],
-    },
-    {
-      _id: '3',
-      upVotes: 5,
-      downVotes: 2,
-      no0fAnswers: 0,
-      questionTitle: '3. What is a function?',
-      questionBody: 'It meant to be',
-      questionTags: ['javascript', 'R', 'python'],
-      userPosted: 'mano',
-      userId: 1,
-      askedOn: 'jan 1',
-      answer: [
-        {
-          answerBody: 'Answer 3',
-          userAnswered: 'Rakesh',
-          answeredOn: 'Jan 21',
-          userId: 3,
-        },
-      ],
-    },
-  ]
+
+  const navigate = useNavigate()
+  const [answer, setAnswer] = useState('')
+  const questionsList = questionsListObject.data
 
   const question = questionsList.find((question) => question._id === id)
 
+  const handlePostAnswer = (e, answerLength) => {
+    e.preventDefault()
+    console.log(answerLength)
+    if (User === null) {
+      alert('Login or Signup to answer a questions')
+      navigate('/Auth')
+    } else {
+      if (answer === '') {
+        alert('Enter an answer before submitting')
+      } else {
+        dispatch(
+          postAnswer({
+            id,
+            noOfAnswers: answerLength + 1,
+            answerBody: answer,
+            userAnswered: User.result.name,
+          })
+        )
+        console.log('Just before setAnswer')
+      }
+    }
+    setAnswer('')
+  }
   return (
     <div className='question-details-page'>
       <br />
@@ -86,7 +56,7 @@ const QuestionsDetails = () => {
             <div className='question-details-container-2'>
               <div className='question-votes'>
                 <img src={upVote} alt='' width='18' />
-                <p>{question.upVotes - question.downVotes}</p>
+                <p>{question.upVote - question.downVote}</p>
                 <img src={downVote} alt='' width='18' />
               </div>
               <div style={{ width: '100%' }}>
@@ -125,7 +95,7 @@ const QuestionsDetails = () => {
           </section>
           {question.noOfAnswers !== 0 && (
             <section>
-              <h3>{question.noOfAnswers} answers</h3>
+              <h3>{question.answer.length} answers</h3>
               <DisplayAnswer key={question._id} question={question} />
             </section>
           )}
@@ -133,8 +103,14 @@ const QuestionsDetails = () => {
       )}
       <section className='post-ans-container'>
         <h3>Your Answer</h3>
-        <form>
-          <textarea name='' id='' cols='30' rows='10'></textarea>
+        <form onSubmit={(e) => handlePostAnswer(e, question.answer.length)}>
+          <textarea
+            name=''
+            id=''
+            cols='30'
+            rows='10'
+            onChange={(e) => setAnswer(e.target.value)}
+          ></textarea>
           <br />
           <input
             type='submit'

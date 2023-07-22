@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import logo from '../../assets/logo.png'
 import search from '../../assets/magnifying-glass-solid.svg'
 import Button from '../../components/Button/Button'
 import Avatar from '../../components/Avatar/Avatar'
 import './Navbar.css'
+import { setCurrentUser } from '../../actions/currentUser'
 
 const Navbar = () => {
-  const User = null
+  const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
+  }, [dispatch])
+
+  const User = useSelector((state) => state.currentUserReducer)
   return (
     <nav className='main-nav'>
       <div className='navbar'>
@@ -45,7 +52,7 @@ const Navbar = () => {
                 to='/User'
                 style={{ color: 'white', textDecoration: 'none' }}
               >
-                R
+                {User.result.name.charAt(0).toUpperCase()}
               </Link>
             </Avatar>
 

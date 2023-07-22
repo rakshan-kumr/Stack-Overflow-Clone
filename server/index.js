@@ -3,6 +3,8 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 import userRoutes from './routes/users.js'
+import questionRoutes from './routes/questions.js'
+import answerRoutes from './routes/answers.js'
 
 const app = express()
 app.use(express.json({ limit: '30mb', extended: true }))
@@ -16,6 +18,8 @@ app.get('/', (req, res) => {
 app.post('auth/signup', () => {})
 
 app.use('/user', userRoutes)
+app.use('/question', questionRoutes)
+app.use('/answer', answerRoutes)
 
 const PORT = process.env.PORT || 5000
 
