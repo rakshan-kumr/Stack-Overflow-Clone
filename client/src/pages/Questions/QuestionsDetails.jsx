@@ -19,10 +19,6 @@ const QuestionsDetails = () => {
   const [answer, setAnswer] = useState('')
   const questionsList = questionsListObject
 
-  // const question = questionsListObject.data.find(
-  //   (question) => question._id === id
-  // )
-
   const handleUpVote = () => {
     return
   }

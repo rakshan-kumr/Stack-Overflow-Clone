@@ -1,7 +1,7 @@
+import 'dotenv/config'
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
-
 import userRoutes from './routes/users.js'
 import questionRoutes from './routes/questions.js'
 import answerRoutes from './routes/answers.js'
@@ -23,11 +23,8 @@ app.use('/answer', answerRoutes)
 
 const PORT = process.env.PORT || 5000
 
-const CONNECTION_URL =
-  'mongodb+srv://rakshan_kumar:a7sVnlVbMqwKy05l@stackoverflowclone.ko4u5wi.mongodb.net/stackOverFlowClone?retryWrites=true&w=majority'
-
 mongoose
-  .connect(CONNECTION_URL, {
+  .connect(process.env.CONNECTION_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
