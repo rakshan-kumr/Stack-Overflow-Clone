@@ -1,8 +1,19 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Avatar from '../../components/Avatar/Avatar'
+import { deleteAnswer } from '../../actions/question.js'
+import { useDispatch, useSelector } from 'react-redux'
 
 const DisplayAnswer = ({ question }) => {
+  const { id } = useParams()
+
+  const User = useSelector((state) => state.currentUserReducer)
+  const dispatch = useDispatch()
+  const handleAnsDelete = (ansId, noOfAnswers) => {
+    console.log('answer delete triggered')
+    dispatch(deleteAnswer(id, ansId, noOfAnswers))
+  }
+
   return (
     <div>
       {question.answer.map((ans) => (
@@ -11,7 +22,14 @@ const DisplayAnswer = ({ question }) => {
           <div className='question-actions-user'>
             <div>
               <button type='button'>Share</button>
-              <button type='button'>Delete</button>
+              {User?.result?._id === ans?.userId && (
+                <button
+                  type='button'
+                  onClick={() => handleAnsDelete(ans._id, question.noOfAnswers)}
+                >
+                  Delete
+                </button>
+              )}
             </div>
             <div>
               <p>answered on {ans.answeredOn}</p>

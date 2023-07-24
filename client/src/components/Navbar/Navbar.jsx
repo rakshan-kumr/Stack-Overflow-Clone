@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import logo from '../../assets/logo.png'
 import search from '../../assets/magnifying-glass-solid.svg'
@@ -15,6 +15,10 @@ const Navbar = () => {
     dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
   }, [dispatch])
 
+  const logoutHandler = () => {
+    setCurrentUser(null)
+    localStorage.removeItem('Profile')
+  }
   const User = useSelector((state) => state.currentUserReducer)
   return (
     <nav className='main-nav'>
@@ -56,7 +60,9 @@ const Navbar = () => {
               </Link>
             </Avatar>
 
-            <button className='nav-item nav-links'>Log out</button>
+            <button className='nav-item nav-links' onClick={logoutHandler}>
+              Log out
+            </button>
           </>
         )}
       </div>

@@ -11,10 +11,22 @@ export const postQuestion = (questionData) =>
   API.post('/question/Ask', questionData)
 export const getAllQuestions = () => API.get('/question/get')
 
-export const postAnswer = (id, noOfAnswers, answerBody, userAnswered) => {
+export const deleteQuestion = (id) => API.delete(`question/delete/${id}`)
+
+export const postAnswer = (
+  userId,
+  id,
+  noOfAnswers,
+  answerBody,
+  userAnswered
+) => {
   return API.patch(`answer/post/${id}`, {
+    userId,
     noOfAnswers,
     answerBody,
     userAnswered,
   })
 }
+
+export const deleteAnswer = (id, answerId, noOfAnswers) =>
+  API.patch(`answer/delete/${id}`, { answerId, noOfAnswers })

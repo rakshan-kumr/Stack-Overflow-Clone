@@ -7,12 +7,13 @@ import upVote from '../../assets/sort-up.svg'
 import downVote from '../../assets/sort-down.svg'
 import './Questions.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { postAnswer } from '../../actions/question.js'
+import { postAnswer, deleteQuestion } from '../../actions/question.js'
 
 const QuestionsDetails = () => {
   const dispatch = useDispatch()
   const questionsListObject = useSelector((state) => state.questionsReducer)
   const User = useSelector((state) => state.currentUserReducer)
+  console.log(User)
   const { id } = useParams()
 
   const navigate = useNavigate()
@@ -29,7 +30,7 @@ const QuestionsDetails = () => {
     return
   }
   const handleDelete = () => {
-    return
+    dispatch(deleteQuestion(id, navigate))
   }
 
   const handlePostAnswer = (e, answerLength) => {
@@ -44,13 +45,13 @@ const QuestionsDetails = () => {
       } else {
         dispatch(
           postAnswer({
+            userId: User.result._id,
             id,
             noOfAnswers: answerLength + 1,
             answerBody: answer,
             userAnswered: User.result.name,
           })
         )
-        console.log('Just before setAnswer')
       }
     }
     setAnswer('')
@@ -97,11 +98,12 @@ const QuestionsDetails = () => {
                           <button type='button' onClick={handleShare}>
                             Share
                           </button>
-                          {User?.result?._id === question?.userId && (
-                            <button type='button' onClick={handleDelete}>
-                              Delete
-                            </button>
-                          )}
+                          {User?.result?._id === question?.userId &&
+                            User != null && (
+                              <button type='button' onClick={handleDelete}>
+                                Delete
+                              </button>
+                            )}
                         </div>
                         <div>
                           <p>asked {moment(question.askedOn).fromNow()}</p>
