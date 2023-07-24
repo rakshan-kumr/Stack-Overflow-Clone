@@ -7,13 +7,16 @@ import upVote from '../../assets/sort-up.svg'
 import downVote from '../../assets/sort-down.svg'
 import './Questions.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { postAnswer, deleteQuestion } from '../../actions/question.js'
+import {
+  postAnswer,
+  deleteQuestion,
+  voteQuestion,
+} from '../../actions/question.js'
 
 const QuestionsDetails = () => {
   const dispatch = useDispatch()
   const questionsListObject = useSelector((state) => state.questionsReducer)
   const User = useSelector((state) => state.currentUserReducer)
-  console.log(User)
   const { id } = useParams()
 
   const navigate = useNavigate()
@@ -21,10 +24,10 @@ const QuestionsDetails = () => {
   const questionsList = questionsListObject
 
   const handleUpVote = () => {
-    return
+    if (User) dispatch(voteQuestion(id, 'upVote', User.result._id))
   }
   const handleDownVote = () => {
-    return
+    if (User) dispatch(voteQuestion(id, 'downVote', User.result._id))
   }
   const handleShare = () => {
     return

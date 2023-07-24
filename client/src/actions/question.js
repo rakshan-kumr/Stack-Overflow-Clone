@@ -43,8 +43,6 @@ export const postAnswer = (answerData) => async (dispatch) => {
       answerBody,
       userAnswered
     )
-
-    console.log('data of postAnswer', data)
     dispatch({
       type: 'POST_ANSWER',
       payload: data,
@@ -59,5 +57,16 @@ export const deleteAnswer = (id, answerId, noOfAnswers) => async (dispatch) => {
   try {
     await api.deleteAnswer(id, answerId, noOfAnswers)
     dispatch(fetchAllQuestions())
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const voteQuestion = (id, value, userId) => async (dispatch) => {
+  try {
+    await api.voteQuestion(id, value, userId)
+    dispatch(fetchAllQuestions())
+  } catch (error) {
+    console.log(error)
+  }
 }

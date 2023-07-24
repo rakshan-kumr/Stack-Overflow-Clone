@@ -1,4 +1,6 @@
 import React from 'react'
+import moment from 'moment'
+
 import { Link, useParams } from 'react-router-dom'
 import Avatar from '../../components/Avatar/Avatar'
 import { deleteAnswer } from '../../actions/question.js'
@@ -6,12 +8,10 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const DisplayAnswer = ({ question }) => {
   const { id } = useParams()
-
-  const User = useSelector((state) => state.currentUserReducer)
   const dispatch = useDispatch()
+  const User = useSelector((state) => state.currentUserReducer)
   const handleAnsDelete = (ansId, noOfAnswers) => {
-    console.log('answer delete triggered')
-    dispatch(deleteAnswer(id, ansId, noOfAnswers))
+    dispatch(deleteAnswer(id, ansId, noOfAnswers - 1))
   }
 
   return (
@@ -32,7 +32,7 @@ const DisplayAnswer = ({ question }) => {
               )}
             </div>
             <div>
-              <p>answered on {ans.answeredOn}</p>
+              <p>answered {moment(ans.answeredOn).fromNow()}</p>
               <Link
                 to={`/User/${ans.userId}`}
                 className='user-link'

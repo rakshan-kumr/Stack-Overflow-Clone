@@ -10,8 +10,9 @@ export const signUp = (authData) => API.post('user/signup', authData)
 export const postQuestion = (questionData) =>
   API.post('/question/Ask', questionData)
 export const getAllQuestions = () => API.get('/question/get')
-
 export const deleteQuestion = (id) => API.delete(`question/delete/${id}`)
+export const voteQuestion = (id, value, userId) =>
+  API.patch(`/question/vote/${id}`, { value, userId })
 
 export const postAnswer = (
   userId,
