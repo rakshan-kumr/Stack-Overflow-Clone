@@ -4,7 +4,6 @@ import Questions from '../models/questions.js'
 export const postAnswer = async (req, res) => {
   const { id: _id } = req.params
   const { noOfAnswers, answerBody, userAnswered, userId } = req.body
-  console.log(req.body, noOfAnswers, answerBody, userAnswered, userId)
 
   if (!mongoose.Types.ObjectId.isValid(_id)) {
     return res.status(404).send('Question unavailable.')
@@ -26,10 +25,8 @@ export const postAnswer = async (req, res) => {
       },
       { new: true }
     )
-    console.log(updatedQuestion)
     res.status(200).json(updatedQuestion)
   } catch (error) {
-    console.log(error)
     res.status(400).json(error)
   }
 }
@@ -42,7 +39,6 @@ const updateNoOfQuestions = async (_id, noOfAnswers) => {
       },
     })
   } catch (error) {
-    console.log(error)
     res.status(500)
   }
 }

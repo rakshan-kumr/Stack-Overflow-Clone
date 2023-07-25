@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import decode from 'jwt-decode'
 import logo from '../../assets/logo.png'
 import search from '../../assets/magnifying-glass-solid.svg'
 import Button from '../../components/Button/Button'
@@ -10,16 +11,27 @@ import { setCurrentUser } from '../../actions/currentUser'
 
 const Navbar = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const User = useSelector((state) => state.currentUserReducer)
+
+  const logoutHandler = () => {
+    dispatch({ type: 'LOGOUT' })
+    navigate('/')
+    dispatch(setCurrentUser(null))
+  }
 
   useEffect(() => {
+    const token = User?.token
+    if (token) {
+      const decodedToken = decode(token)
+      console.log(decodedToken)
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        logoutHandler()
+      }
+    }
     dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
   }, [dispatch])
 
-  const logoutHandler = () => {
-    setCurrentUser(null)
-    localStorage.removeItem('Profile')
-  }
-  const User = useSelector((state) => state.currentUserReducer)
   return (
     <nav className='main-nav'>
       <div className='navbar'>

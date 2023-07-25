@@ -4,6 +4,15 @@ const baseURL = 'http://localhost:5000/'
 
 const API = axios.create({ baseURL })
 
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem('Profile')) {
+    req.headers.authorization = `Bearer ${
+      JSON.parse(localStorage.getItem('Profile')).token
+    }`
+  }
+  return req
+})
+
 export const login = (authData) => API.post('user/login', authData)
 export const signUp = (authData) => API.post('user/signup', authData)
 
