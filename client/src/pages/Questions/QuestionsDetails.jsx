@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom'
+import copy from 'copy-to-clipboard'
+
 import Avatar from '../../components/Avatar/Avatar'
 import DisplayAnswer from './DisplayAnswer'
 import moment from 'moment'
@@ -18,7 +20,7 @@ const QuestionsDetails = () => {
   const questionsListObject = useSelector((state) => state.questionsReducer)
   const User = useSelector((state) => state.currentUserReducer)
   const { id } = useParams()
-
+  const location = useLocation()
   const navigate = useNavigate()
   const [answer, setAnswer] = useState('')
   const questionsList = questionsListObject
@@ -30,7 +32,8 @@ const QuestionsDetails = () => {
     if (User) dispatch(voteQuestion(id, 'downVote', User.result._id))
   }
   const handleShare = () => {
-    return
+    copy(window.location.href)
+    alert('Copied url : ' + window.location.href)
   }
   const handleDelete = () => {
     dispatch(deleteQuestion(id, navigate))

@@ -13,12 +13,18 @@ const Navbar = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const User = useSelector((state) => state.currentUserReducer)
+  // console.log(User)
 
   const logoutHandler = () => {
     dispatch({ type: 'LOGOUT' })
     navigate('/')
     dispatch(setCurrentUser(null))
   }
+  //
+  // if (token) {
+  //   const decodedToken = decode(token)
+  //   console.log(decodedToken)
+  // }
 
   useEffect(() => {
     const token = User?.token
@@ -65,7 +71,7 @@ const Navbar = () => {
               color='white'
             >
               <Link
-                to='/User'
+                to={`/Users/${User?.result._id}`}
                 style={{ color: 'white', textDecoration: 'none' }}
               >
                 {User.result.name.charAt(0).toUpperCase()}

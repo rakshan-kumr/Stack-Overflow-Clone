@@ -5,6 +5,9 @@ import Questions from './pages/Questions/Questions'
 import AskQuestion from './pages/AskQuestion/AskQuestion'
 import DisplayQuestion from './pages/Questions/DisplayQuestion'
 import { Routes, Route } from 'react-router-dom'
+import Tags from './pages/Tags/Tags'
+import Users from './pages/Users/Users'
+import UserProfile from './pages/Userprofile/UserProfile'
 
 const AllRoutes = () => {
   return (
@@ -14,6 +17,9 @@ const AllRoutes = () => {
       <Route exact path='/Questions' Component={Questions} />
       <Route exact path='/AskQuestion' Component={AskQuestion} />
       <Route exact path='/Questions/:id' Component={DisplayQuestion} />
+      <Route exact path='/Tags' Component={Tags} />
+      <Route exact path='/Users' Component={Users} />
+      <Route exact path='/Users/:id' Component={UserProfile} />
     </Routes>
   )
 }

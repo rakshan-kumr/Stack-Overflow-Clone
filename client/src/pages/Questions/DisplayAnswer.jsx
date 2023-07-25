@@ -6,7 +6,7 @@ import Avatar from '../../components/Avatar/Avatar'
 import { deleteAnswer } from '../../actions/question.js'
 import { useDispatch, useSelector } from 'react-redux'
 
-const DisplayAnswer = ({ question }) => {
+const DisplayAnswer = ({ question, handleShare }) => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const User = useSelector((state) => state.currentUserReducer)
@@ -21,7 +21,9 @@ const DisplayAnswer = ({ question }) => {
           <p>{ans.answerBody}</p>
           <div className='question-actions-user'>
             <div>
-              <button type='button'>Share</button>
+              <button type='button' onClick={handleShare}>
+                Share
+              </button>
               {User?.result?._id === ans?.userId && (
                 <button
                   type='button'
@@ -34,7 +36,7 @@ const DisplayAnswer = ({ question }) => {
             <div>
               <p>answered {moment(ans.answeredOn).fromNow()}</p>
               <Link
-                to={`/User/${ans.userId}`}
+                to={`/Users/${ans.userId}`}
                 className='user-link'
                 style={{ color: '#0086d8' }}
               >
