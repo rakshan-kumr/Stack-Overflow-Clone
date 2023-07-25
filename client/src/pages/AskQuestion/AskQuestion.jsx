@@ -36,7 +36,6 @@ const AskQuestion = () => {
       <div className='ask-ques-container'>
         <br />
         <h1>Ask a public question</h1>
-        <h2>{questionBody}</h2>
         <form onSubmit={handleSubmit}>
           <div className='ask-form-container'>
             <label htmlFor='ask-ques-title'>
