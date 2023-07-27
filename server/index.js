@@ -5,7 +5,6 @@ import cors from 'cors'
 import userRoutes from './routes/users.js'
 import questionRoutes from './routes/questions.js'
 import answerRoutes from './routes/answers.js'
-import auth from './middlewares/auth.js'
 
 const app = express()
 app.use(express.json({ limit: '30mb', extended: true }))

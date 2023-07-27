@@ -1,5 +1,20 @@
 import mongoose from 'mongoose'
 
+const systemInfoSchema = mongoose.Schema({
+  os: String,
+  browserDetails: String,
+  deviceType: String,
+})
+
+const loginHistorySchema = mongoose.Schema({
+  systemInfo: systemInfoSchema,
+  time: {
+    type: Date,
+    default: Date.now,
+  },
+  ipAddress: String,
+})
+
 const userSchema = mongoose.Schema({
   name: {
     type: String,
@@ -11,6 +26,9 @@ const userSchema = mongoose.Schema({
   tags: { type: [String] },
   email: { type: String },
   joinedOn: { type: Date, default: Date.now },
+  loginHistory: {
+    type: [loginHistorySchema],
+  },
 })
 
 export default mongoose.model('User', userSchema)

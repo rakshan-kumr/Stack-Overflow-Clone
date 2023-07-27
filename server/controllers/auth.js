@@ -33,8 +33,9 @@ export const signup = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-  const { email, password } = req.body
-  console.log(req)
+  const { email, password, browserDetails, os, deviceType } = req.body
+
+  console.log(req.body, req.socket.remoteAddress)
 
   try {
     const existingUser = await users.findOne({ email })
@@ -51,6 +52,24 @@ export const login = async (req, res) => {
       { email: existingUser.email, id: existingUser._id },
       process.env.SECRET_TOKEN,
       { expiresIn: '1h' }
+    )
+    await users.findByIdAndUpdate(
+      existingUser._id,
+      {
+        $addToSet: {
+          loginHistory: [
+            {
+              systemInfo: {
+                browserDetails,
+                os,
+                deviceType,
+              },
+              ipAddress: req.socket.remoteAddress,
+            },
+          ],
+        },
+      },
+      { new: true }
     )
     res.status(200).json({ result: existingUser, token })
   } catch (error) {

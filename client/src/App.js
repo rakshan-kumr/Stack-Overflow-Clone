@@ -11,6 +11,7 @@ import { fetchAllUsers } from './actions/users'
 function App() {
   const dispatch = useDispatch()
 
+  console.log(navigator)
   useEffect(() => {
     dispatch(fetchAllQuestions())
     dispatch(fetchAllUsers())

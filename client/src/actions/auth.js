@@ -1,5 +1,12 @@
 import * as api from '../api'
 import { setCurrentUser } from './currentUser'
+import {
+  browserName,
+  deviceType,
+  fullBrowserVersion,
+  osName,
+  osVersion,
+} from 'react-device-detect'
 
 export const signUp = (authData, navigate) => async (dispatch) => {
   try {
@@ -15,8 +22,15 @@ export const signUp = (authData, navigate) => async (dispatch) => {
   }
 }
 export const login = (authData, navigate) => async (dispatch) => {
+  const systemInfo = {
+    browserDetails: `${browserName} ${fullBrowserVersion}`,
+    os: `${osName} ${osVersion}`,
+    deviceType: deviceType,
+  }
+  const updatedAuthData = { ...authData, ...systemInfo }
+
   try {
-    const { data } = await api.login(authData)
+    const { data } = await api.login(updatedAuthData)
     dispatch({
       type: 'AUTH',
       data,
