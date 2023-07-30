@@ -10,6 +10,7 @@ import LeftSidebar from '../../components/LeftSidebar/LeftSidebar'
 import Avatar from '../../components/Avatar/Avatar'
 import EditProfileForm from './EditProfileForm'
 import ProfileBio from './ProfileBio'
+import LoginHistory from './LoginHistory'
 
 const UserProfile = () => {
   const [formVisible, setformVisible] = useState(false)
@@ -64,6 +65,11 @@ const UserProfile = () => {
               />
             ) : (
               <ProfileBio currentProfile={currentProfile} />
+            )}
+          </>
+          <>
+            {currentUser?.result._id === id && !formVisible && (
+              <LoginHistory user={currentUser} />
             )}
           </>
         </section>

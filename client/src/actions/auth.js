@@ -7,16 +7,26 @@ import {
   osName,
   osVersion,
 } from 'react-device-detect'
+import { fetchAllUsers } from './users'
 
 export const signUp = (authData, navigate) => async (dispatch) => {
+  const systemInfo = {
+    browserDetails: `${browserName} ${fullBrowserVersion}`,
+    os: `${osName} ${osVersion}`,
+    deviceType: deviceType,
+  }
+
+  const updatedAuthData = { ...authData, ...systemInfo }
+
   try {
-    const { data } = await api.signUp(authData)
+    const { data } = await api.signUp(updatedAuthData)
     dispatch({
       type: 'AUTH',
       data,
     })
-    dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
     navigate('/')
+    dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
+    dispatch(fetchAllUsers())
   } catch (error) {
     console.log(error)
   }

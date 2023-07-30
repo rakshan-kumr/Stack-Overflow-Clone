@@ -5,7 +5,7 @@ import 'dotenv/config'
 import users from '../models/auth.js'
 
 export const signup = async (req, res) => {
-  const { name, email, password } = req.body
+  const { name, email, password, browserDetails, os, deviceType } = req.body
 
   try {
     const existingUser = await users.findOne({ email })
@@ -19,6 +19,16 @@ export const signup = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      loginHistory: [
+        {
+          systemInfo: {
+            browserDetails,
+            os,
+            deviceType,
+          },
+          ipAddress: req.socket.remoteAddress,
+        },
+      ],
     })
     const token = jwt.sign(
       { email: newUser.email, id: newUser._id },
@@ -53,7 +63,7 @@ export const login = async (req, res) => {
       process.env.SECRET_TOKEN,
       { expiresIn: '1h' }
     )
-    await users.findByIdAndUpdate(
+    const authenticatedUser = await users.findByIdAndUpdate(
       existingUser._id,
       {
         $addToSet: {
@@ -71,7 +81,7 @@ export const login = async (req, res) => {
       },
       { new: true }
     )
-    res.status(200).json({ result: existingUser, token })
+    res.status(200).json({ result: authenticatedUser, token })
   } catch (error) {
     console.log(error)
     res.status(500).json('Something went wrong')
